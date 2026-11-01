@@ -1,0 +1,20 @@
+============================= Docker swarm ========================
+sudo apt install docker.io -y
+sudo usermod user -aG docker 
+------------------------------------------------------------------
+----------------restart the machine or start the new session ----------------------------
+
+docker swarm init			# will get a token and run that in all the nodes
+
+docker node ls 				# check all the added node
+
+docker service create --name <container_name> -p <host_port:container_port> <images_name:tag>		# runs the service
+
+docker service create --name <container_name> -p <host_port:container_port> --replicas 3 <images_name:tag>	#optinal
+
+docker service scale <container_name>=<no_of_nodes>				#to scale the service on other nodes
+
+docker service ls 					#to check the running service
+docker service ps <container_name>				#to check the service running on the nodes
+
+docker service rm <container_name>		#to remove the service running from all the nodes
