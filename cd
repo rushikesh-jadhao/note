@@ -1,0 +1,26 @@
+services:
+  web1:
+    image: nginx:latest
+    container_name: web1
+    ports:
+    - "80:80"
+    volumes:
+    - ./web1:/usr/share/nginx/html
+    networks:
+    - app-network
+
+
+  web2:
+    image: nginx:latest
+    container_name: web2
+    ports:
+    - "81:80"
+    volumes:
+    - ./web2:/usr/share/nginx/html
+    networks:
+    - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
