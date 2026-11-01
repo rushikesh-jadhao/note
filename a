@@ -1,0 +1,43 @@
+sudo apt update && sudo apt upgrade && sudo apt install ansible -y
+
+sudo hostnamectl set-hostname server                 #Server
+sudo hostnamectl set-hostname node                   #Node
+
+sudo /etc/hosts    --->      ip server            ip   node
+
+ssh-keygen                   # on server and public key to node
+
+mkdir ansible
+cd ansible
+
+nano invi.ini
+[nodes]
+node  user=username of node
+
+ansible nodes -m ping -i invi.ini
+
+
+nano play.yml
+- name: Playbook
+  hosts: nodes
+  become: true
+  tasks:
+    - name: update
+      ansible.builtin.apt:
+        name: '*'
+        update_cache: true
+
+    - name: install
+      ansible.builtin.apt:
+        name: apache2
+        state: latest
+
+    - name: create user
+      ansible.builtin.user:
+        name: username
+        password: "{{ 'pass' | password_hash('sha512') }}"
+        groups: sudo
+        append: yes
+
+
+ansible-playbook nodes -i invi.ini play.yml
